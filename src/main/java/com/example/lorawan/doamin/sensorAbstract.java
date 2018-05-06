@@ -3,7 +3,7 @@ package com.example.lorawan.doamin;
 public abstract class sensorAbstract implements SensorInterface {
     private Integer id;
     private String devaddr;
-    private Integer Type;
+    private String Type;
 
     public Integer getId() {
         return id;
@@ -21,11 +21,11 @@ public abstract class sensorAbstract implements SensorInterface {
         this.devaddr = devaddr;
     }
 
-    public Integer getType() {
+    public String getType() {
         return Type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         Type = type;
     }
 }

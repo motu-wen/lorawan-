@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class InfraredSentor extends sensorAbstract {
     private Integer count;
-    private Date time;
+    private String time;
 
     public Integer getCount() {
         return count;
@@ -14,11 +14,19 @@ public class InfraredSentor extends sensorAbstract {
         this.count = count;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    @Override
+    public String toString() {
+        return "devaddr="+getDevaddr()+
+                ",type="+getType()+
+                "count=" + count +
+                ", time=" + time ;
+    }
+
+    public void setTime(String time) {
         this.time = time;
     }
 }
