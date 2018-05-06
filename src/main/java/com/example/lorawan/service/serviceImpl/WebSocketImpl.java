@@ -60,7 +60,7 @@ public class WebSocketImpl implements WebSocketServer {
         for(String s:list){
             System.out.println(s);
         }
-        System.out.println(data+"======"+devaddr);
+        //System.out.println(data+"======"+devaddr);
         return "callback ";
     }
 }

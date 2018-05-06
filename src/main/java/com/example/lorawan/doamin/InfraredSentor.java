@@ -21,9 +21,9 @@ public class InfraredSentor extends sensorAbstract {
     @Override
     public String toString() {
         return "devaddr="+getDevaddr()+
-                "type="+getType()+
+                ",type="+getType()+
                 "count=" + count +
-                ", time='" + time ;
+                ", time=" + time ;
     }
 
     public void setTime(String time) {
