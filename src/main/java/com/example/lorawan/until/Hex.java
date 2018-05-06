@@ -1,17 +1,23 @@
 package com.example.lorawan.until;
 
 public class Hex {
-    public static String  HexToString(String hexStr){
-        String str = "0123456789ABCDEF";
-        char[] hexs=hexStr.toCharArray();
-        byte[] bytes=new byte[hexStr.length()/2];
-        int n;
-        for(int i=0;i<bytes.length;i++){
-            n=str.indexOf(hexs[2*i]*16);
-            n+=str.indexOf(hexs[2*i+1]);
-            bytes[i] = (byte) (n & 0xff);
+    public static String  HexToString(String s){
+        byte[] baKeyword = new byte[s.length()/2];
+        for(int i = 0; i < baKeyword.length; i++){
+            try{
+                baKeyword[i] = (byte)(0xff & Integer.parseInt(s.substring(i*2, i*2+2),16));
 
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
-        return new String(bytes);
+        try{
+            s = new String(baKeyword, "utf-8");//UTF-16le:Not
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    return s;
     }
+
 }
