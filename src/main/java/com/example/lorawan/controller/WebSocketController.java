@@ -14,13 +14,14 @@ public class WebSocketController {
     public static String destUrl="ws://114.213.206.118:8080/ws/groups/infrared/json";
     @RequestMapping("/resetUrl")
     public void  resetWebSocketUrl(){
+        System.out.println("程序运行到此处");
         Thread t1=new Thread(new Runnable() {
             @Override
             public void run() {
                 SslContextFactory sslContextFactory=new SslContextFactory(true);
                 WebSocketClient client=new WebSocketClient(sslContextFactory);
                 client.setMaxIdleTimeout(0);
-                SimpleWebsocketHandle socket=new SimpleWebsocketHandle();
+                SimpleWebsocketHandler socket=new SimpleWebsocketHandler();
                 try{
                     client.start();
                     URI connectUri=new URI(destUrl);

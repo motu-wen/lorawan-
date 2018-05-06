@@ -13,10 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 @WebSocket(maxTextMessageSize = 1024*1024)
 @Component
-public class SimpleWebsocketHandle {
+public class SimpleWebsocketHandler {
     @Autowired
     private WebSocketServer server;
-    private static SimpleWebsocketHandle handle;
+    private static SimpleWebsocketHandler handle;
     private final CountDownLatch closeLatch;
     private final CountDownLatch connectLatch;
     private Session session;
@@ -34,7 +34,7 @@ public class SimpleWebsocketHandle {
         this.session = session;
     }
 
-    public SimpleWebsocketHandle() {
+    public SimpleWebsocketHandler() {
         this.closeLatch=new CountDownLatch(1);
         this.connectLatch=new CountDownLatch(1);
     }
