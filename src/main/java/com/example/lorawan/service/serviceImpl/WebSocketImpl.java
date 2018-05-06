@@ -4,6 +4,7 @@ import com.example.lorawan.doamin.InfraredSentor;
 import com.example.lorawan.enmu.redisExplain;
 import com.example.lorawan.service.WebSocketServer;
 
+import com.example.lorawan.until.Hex;
 import com.example.lorawan.until.JSonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class WebSocketImpl implements WebSocketServer {
 
 
         String IRCount=data.substring(16,data.length()-1);
-        int peopleCount=Integer.parseInt(IRCount,16);
+        String   peopleCount=Hex.HexToString(IRCount);
         InfraredSentor infraredSentor=new InfraredSentor();
         String type = stringRedisTemplate.opsForValue().get(redisExplain.type.explain + devaddr);
         infraredSentor.setDevaddr(devaddr);
