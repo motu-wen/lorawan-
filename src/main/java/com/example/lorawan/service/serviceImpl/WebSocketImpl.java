@@ -41,13 +41,13 @@ public class WebSocketImpl implements WebSocketServer {
 
         String IRCount=data.substring(16,data.length()-1);
         String   peopleCount=Hex.HexToString(IRCount);
+        System.out.println(peopleCount);
         InfraredSentor infraredSentor=new InfraredSentor();
         String type = stringRedisTemplate.opsForValue().get(redisExplain.type.explain + devaddr);
         infraredSentor.setDevaddr(devaddr);
         infraredSentor.setCount(peopleCount);
-
         infraredSentor.setTime(new SimpleDateFormat("MM-dd HH:mm:ss").format(new Date()));
-        infraredSentor.setType(type);
+        infraredSentor.setType("222");
         String hongwaiList=stringRedisTemplate.opsForValue().get(redisExplain.hongwaiList.explain);
         if(StringUtils.isEmpty(hongwaiList)){
             hongwaiList=devaddr;
@@ -55,12 +55,10 @@ public class WebSocketImpl implements WebSocketServer {
             hongwaiList+=","+devaddr;
         }
         stringRedisTemplate.opsForValue().set(redisExplain.hongwaiList.explain,hongwaiList);
-        stringRedisTemplate.opsForList().rightPush(devaddr,infraredSentor.toString());
+
+        stringRedisTemplate.opsForList().rightPush(devaddr,JSonUtil.toJSonString(infraredSentor));
 
         List<String> list=stringRedisTemplate.opsForList().range(devaddr,0,1);
-        for(String s:list){
-            System.out.println(s);
-        }
         //System.out.println(data+"======"+devaddr);
         return "callback ";
     }
