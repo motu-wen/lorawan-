@@ -43,7 +43,7 @@ public class WebSocketImpl implements WebSocketServer {
         String type = stringRedisTemplate.opsForValue().get(redisExplain.type.explain + devaddr);
         infraredSentor.setDevaddr(devaddr);
         infraredSentor.setCount(peopleCount);
-        infraredSentor.setTime(new SimpleDateFormat("MM-dd HH:mm:ss").format(new Date()));
+        infraredSentor.setTime(new SimpleDateFormat("MM-dd HH:mm:ss ms").format(new Date()));
         String hongwaiList=stringRedisTemplate.opsForValue().get(redisExplain.hongwaiList.explain);
         if(StringUtils.isEmpty(hongwaiList)){
             hongwaiList=devaddr;
@@ -54,8 +54,6 @@ public class WebSocketImpl implements WebSocketServer {
 
         stringRedisTemplate.opsForList().rightPush(devaddr,JSonUtil.toJSonString(infraredSentor));
 
-        List<String> list=stringRedisTemplate.opsForList().range(devaddr,0,1);
-        //System.out.println(data+"======"+devaddr);
         return "callback ";
     }
 }

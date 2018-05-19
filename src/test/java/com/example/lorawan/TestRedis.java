@@ -18,9 +18,7 @@ public class TestRedis {
     public void test(){
         ///stringRedisTemplate.opsForValue().set("aaa","eee");
         String devaddr="BBBBBBB7";
-        List list=stringRedisTemplate.opsForList().range(devaddr,0,-1);
-        for (Object o:list){
-            System.out.println(o);
-        }
+
+       if(stringRedisTemplate.opsForList().leftPop(devaddr)!=null) System.out.println("具体内容："+stringRedisTemplate.opsForList().leftPop(devaddr));
     }
 }

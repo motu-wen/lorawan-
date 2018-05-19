@@ -13,4 +13,49 @@ public class ClassRoom {
     private Integer floor;
     private Integer room;
     private List<Integer> doors;
+    private Integer count=0;
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+
+
+    public Integer getBuild() {
+        return build;
+    }
+
+    public void setBuild(Integer build) {
+        this.build = build;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
+    }
+
+    public Integer getRoom() {
+        return room;
+    }
+
+    public void setRoom(Integer room) {
+        this.room = room;
+    }
+
+    public List<Integer> getDoors() {
+        return doors;
+    }
+
+    public void setDoors(List<Integer> doors) {
+        this.doors = doors;
+    }
+
+
+
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教室人数</title>
+    <script src="js/jquery-3.1.1.js"></script>
+    <script>
+        $.ajax({
+            url:"/getstudentcount",
+            success:function (result) {
+                console.log(result);
+                var div=$("<div></div>").append(result);
+                div.appendTo("body");
+            }
+        })
+    </script>
+</head>
+<body>
+    <div>
+        
+    </div>
+</body>
+</html>
