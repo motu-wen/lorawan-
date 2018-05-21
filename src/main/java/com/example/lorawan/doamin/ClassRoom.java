@@ -12,8 +12,7 @@ public class ClassRoom {
     private Integer build;//教学楼编号
     private Integer floor;
     private Integer room;
-    private List<Integer> doors;
-    private Integer count=0;
+    private Integer count;
     public Integer getCount() {
         return count;
     }
@@ -46,14 +45,6 @@ public class ClassRoom {
 
     public void setRoom(Integer room) {
         this.room = room;
-    }
-
-    public List<Integer> getDoors() {
-        return doors;
-    }
-
-    public void setDoors(List<Integer> doors) {
-        this.doors = doors;
     }
 
 

@@ -1,11 +1,10 @@
-package com.example.lorawan.controller;
+package com.example.lorawan.service;
 
 import com.example.lorawan.doamin.ClassRoom;
 import com.example.lorawan.until.JSonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,9 +13,9 @@ import java.util.concurrent.TimeUnit;
  * @author {Administrator}
  * @data 2018/5/19 16:17
  **/
-@RestController
+@Service
 public class ClassRoomServer {
-    private ClassRoom classRoom1=new ClassRoom(),classRoom2=new ClassRoom();
+    private ClassRoom classRoom1,classRoom2=new ClassRoom();
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -29,13 +28,15 @@ public class ClassRoomServer {
         return classRoom2;
     }
     public void redisToStudentNumber(){
+        classRoom1=JSonUtil.toObject(stringRedisTemplate.opsForValue().get("classroom"),ClassRoom.class);
         String s[]=new String[4];
-        classRoom1.setCount(10);
         s[0]= JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB2",100, TimeUnit.MILLISECONDS),"time");
         s[1]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB3",100, TimeUnit.MILLISECONDS),"time");
         s[2]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB5",100, TimeUnit.MILLISECONDS),"time");
         s[3]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB7",100, TimeUnit.MILLISECONDS),"time");
         studentNumber(s);
+
+        stringRedisTemplate.opsForValue().set("classroom",JSonUtil.toJSonString(classRoom1));
     }
     public void studentNumber(String s1[]){
         if(s1[0]!=null&&!"".equals(s1[0])&&s1[1]!=null&&!"".equals(s1[1])) {
