@@ -1,5 +1,6 @@
 package com.example.lorawan;
 
+import com.example.lorawan.controller.WebSocketController;
 import com.example.lorawan.doamin.ClassRoom;
 import com.example.lorawan.service.ClassRoomServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,15 @@ import org.springframework.stereotype.Component;
 public class StartupRunner implements CommandLineRunner {
     @Autowired
     private ClassRoomServer classRoomServer;
+    @Autowired
+    private WebSocketController webSocketController;
     @Override
     public void run(String... args) throws Exception {
         Thread t1=new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true){
+                    webSocketController.resetWebSocketUrl();
                     classRoomServer.redisToStudentNumber();
                 }
             }

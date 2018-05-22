@@ -21,7 +21,15 @@ public class ClassRoom {
         this.count = count;
     }
 
+    public ClassRoom() {
+    }
 
+    public ClassRoom(Integer build, Integer floor, Integer room, Integer count) {
+        this.build = build;
+        this.floor = floor;
+        this.room = room;
+        this.count = count;
+    }
 
     public Integer getBuild() {
         return build;

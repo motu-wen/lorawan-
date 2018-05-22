@@ -1,10 +1,11 @@
 package com.example.lorawan.controller;
 
+import com.example.lorawan.doamin.ClassRoom;
 import com.example.lorawan.service.ClassRoomServer;
+import com.example.lorawan.until.JSonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * studentcount
@@ -16,11 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @ResponseBody
 public class StudentCountController {
     @Autowired
-    private ClassRoomServer classServer;
-    @RequestMapping("/getstudentcount")
-    public String getStudentCount(){
-        return classServer.getClassRoom1().getCount().toString();
+    private StringRedisTemplate stringRedisTemplate;
+    @RequestMapping(value = "/getStudentCount",method = RequestMethod.POST)
+    @ResponseBody
+    public ClassRoom getStudentCount(@RequestBody ClassRoom classRoom){
+        ClassRoom classRoom1= JSonUtil.toObject(stringRedisTemplate.opsForValue().get("classroom"),ClassRoom.class);
 
+        if((classRoom.getBuild()+classRoom.getFloor()+classRoom.getRoom())==(classRoom1.getBuild()+classRoom1.getFloor()+classRoom1.getRoom())){
+            System.out.println(classRoom.getBuild()+classRoom.getFloor()+classRoom.getRoom());
+            System.out.println(classRoom1.getBuild()+classRoom1.getFloor()+classRoom1.getRoom());
+            return classRoom1;
+        }else {
+            return classRoom;
+        }
     }
 
 }
