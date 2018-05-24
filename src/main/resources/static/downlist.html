@@ -7,15 +7,14 @@
         <label class="col-md-12 control-label" for="teachingbuilding">教学楼编号</label>
     </div>
     <div class="form-group">
-        <select id="teachingbuilding" title="请选择教学楼编号" name="teachingbuilding">
-            <option selected="selected">请选择教学楼</option>
+        <select id="teachingbuilding" title="请选择教学楼编号" name="teachingbuilding" onchange="getFloor('#floor')" >
         </select>
     </div>
     <div class="form-group">
         <label class="col-md-12 control-label" for="floor">楼层号</label>
     </div>
     <div class="form-group">
-        <select id="floor" title="请选择楼层" ></select>
+        <select id="floor" title="请选择楼层" onchange="getClassRoom('#room')"></select>
     </div>
     <div class="form-group">
         <label class="col-md-12 control-label" for="room">教室编号</label>
@@ -24,11 +23,12 @@
         <select id="room" title="请选择教室编号"></select>
     </div>
     <div class="form-group">
-        <button type="button" class="btn btn-primary">开始查询</button>
+        <button type="button" class="btn btn-primary" onclick="get()">开始查询</button>
     </div>
 </form>
 <div class="container">
     <div class="row">
+        <br><br>
         <label class="col-md-4 control-lable">当前教室人数为:</label>
         <div class="col-md-8" id="getcount"></div>
     </div>
@@ -36,17 +36,8 @@
 <script type="application/javascript">
     $(document).ready(function () {
         getBuild("#teachingbuilding");
-        getFloor("#floor");
-        $("#teachingbuilding").change(function () {
-            $("#floor").empty();
-            $("#room").empty();
-            load
-        });
     });
-    
-    function loadFloor(parentId) {
-        
-    }
+
 function getBuild(ele) {
     $(ele).empty();
     $.ajax({
@@ -54,6 +45,8 @@ function getBuild(ele) {
         type:"GET",
         success:function (result) {
             var build=result.data.list;
+            var op=$("<option></option>").append("请选择教学楼");
+            op.appendTo(ele);
             $.each(build,function () {
                 var option=$("<option></option>").append("第").append(this).append("教学楼").attr("value",this);
                 option.appendTo(ele);
@@ -63,18 +56,50 @@ function getBuild(ele) {
 }
 function getFloor(ele) {
     $(ele).empty();
-   var build=$("select name[teachingbuilding]").val();
-    console.log(build);
+    getbuild=$("#teachingbuilding").val();
     $.ajax({
-        url:"/getfloorall?build="+build,
+        url:"/getfloorall?build="+getbuild,
         type:"GET",
         success:function (result) {
             var floor=result.data.list;
-            console.log(floor);
+            var op=$("<option></option>").append("请选择楼层");
+            op.appendTo(ele);
             $.each(floor,function () {
-                var options=$("<option></option>").append(this).append("楼");
+                var options=$("<option></option>").append(this).append("楼").attr("value",this);
                 options.appendTo(ele);
             });
+        }
+    });
+}
+
+function getClassRoom(ele) {
+        $(ele).empty();
+         getfloor=$("#floor").val();
+        $.ajax({
+            url:"/getroomdall?floor="+getbuild+"-"+getfloor,
+            type:"GET",
+            success:function (result) {
+                var room=result.data.list;
+                var op=$("<option></option>").append("请选择教室");
+                op.appendTo(ele);
+                $.each(room,function () {
+                    var options=$("<option></option>").append(this).append("室").attr("value",this);
+                    options.appendTo(ele);
+                });
+            }
+        });
+}
+
+function get() {
+    $("#getcount").empty();
+    getroom=$("#room").val();
+   var key=getbuild+"-"+getfloor+"-"+getroom;
+    $.ajax({
+        url:"/getStudentCount?key="+key,
+        type:"POST",
+        success:function (result) {
+
+          $("#getcount").append(result.data.list)
         }
     });
 }
