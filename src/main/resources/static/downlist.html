@@ -31,3 +31,22 @@
         <div class="col-md-8" id="getcount"></div>
     </div>
 </div>
+<script type="application/javascript">
+    $(function getLou() {
+        var teachingbuilding=$("#teachingbuilding");
+        console.log("执行到此处");
+        $.ajax({
+            url:"/getbuildall",
+            type:"POST",
+            contentType:"application/json; charset=utf-8",
+            success:function (response) {
+                $.each(response.data.list,function (index,item) {
+                    var option="<option id='"+item+"' value='"+item+"'>第"+item+"教学楼</option>";
+                    teachingbuilding.append(option);
+
+                })
+
+            }
+        })
+    });
+</script>

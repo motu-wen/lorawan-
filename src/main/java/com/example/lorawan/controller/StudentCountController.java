@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * studentcount
  *
@@ -21,18 +23,30 @@ public class StudentCountController {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private RoomServerImpl roomServer;
+    @RequestMapping(value = "/getbuildall",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity getBuildAll(){
+        List<String> buildall=stringRedisTemplate.opsForList().range("build",0,-1);
+        return ResponseEntity.success().add("list",buildall);
+    }
+    @RequestMapping(value = "/getfloorall",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity getFloorAll(@RequestBody String build){
+        List<String> floorall=stringRedisTemplate.opsForList().range(build+"build",0,-1);
+        return ResponseEntity.success().add("list",floorall);
+    }
+    @RequestMapping(value = "/getroomdall",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity getRoomAll(@RequestBody String floor){
+        List<String> roomall=stringRedisTemplate.opsForList().range(floor+"floor",0,-1);
+        return ResponseEntity.success().add("list",roomall);
+    }
     @RequestMapping(value = "/getStudentCount",method = RequestMethod.POST)
     @ResponseBody
     public ClassRoom getStudentCount(@RequestBody ClassRoom classRoom){
-        ClassRoom classRoom1= JSonUtil.toObject(stringRedisTemplate.opsForValue().get("classroom"),ClassRoom.class);
-
-        if((classRoom.getBuild()+classRoom.getFloor()+classRoom.getRoom())==(classRoom1.getBuild()+classRoom1.getFloor()+classRoom1.getRoom())){
-            System.out.println(classRoom.getBuild()+classRoom.getFloor()+classRoom.getRoom());
-            System.out.println(classRoom1.getBuild()+classRoom1.getFloor()+classRoom1.getRoom());
-            return classRoom1;
-        }else {
-            return classRoom;
-        }
+        String key=classRoom.getBuild()+"-"+classRoom.getFloor()+"-"+classRoom;
+        ClassRoom classRoom1=JSonUtil.toObject(stringRedisTemplate.opsForValue().get(key),ClassRoom.class);
+        return classRoom1;
     }
 
     @RequestMapping(value = "/addRoom",method = RequestMethod.POST)
@@ -41,4 +55,5 @@ public class StudentCountController {
         roomServer.saveClassRoom(classRoom);
         return ResponseEntity.success();
     }
+
 }

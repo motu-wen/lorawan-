@@ -18,23 +18,20 @@ public class RoomServerImpl {
     @Autowired
     private StringRedisTemplate template;
     public void saveClassRoom(ClassRoom classroom){
+        classroom.setCount(0);
         String build=classroom.getBuild().toString(),floor=classroom.getFloor().toString(),room=classroom.getRoom().toString();
         String key=build+"-"+floor+"-"+room;
         String allkey=template.opsForValue().get("classroom");
         if(allkey==(null)){
             allkey=" ";
         }
-        if(!template.hasKey("build")){
-            template.opsForList().rightPush("build","");
-        }
-        if(!template.hasKey(build)){
-            template.opsForList().rightPush(build,"");
-        }
-        BoundListOperations<String,String> opsbuild=template.boundListOps("build");
+        BoundListOperations<String,String> opsbuild=template.boundListOps("buildall");
         List<String> buildlist=opsbuild.range(0,-1);
 
-        BoundListOperations<String,String> opsfloor=template.boundListOps(build);
+        BoundListOperations<String,String> opsfloor=template.boundListOps(build+"build");
         List<String> floorlist=opsfloor.range(0,-1);
+        BoundListOperations<String,String> opsroom=template.boundListOps(build+"-"+floor+"floor");
+        List<String> roomlist=opsroom.range(0,-1);
         if(!allkey.contains(key)){
             allkey+="room"+key;
             template.opsForValue().set("classroom",allkey);
@@ -44,6 +41,9 @@ public class RoomServerImpl {
             }
             if(!floorlist.contains(floor)){
                 opsfloor.rightPush(floor);
+            }
+            if(!roomlist.contains(room)){
+                opsroom.rightPush(room);
             }
         }
 
