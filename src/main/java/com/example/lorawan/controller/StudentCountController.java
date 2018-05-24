@@ -37,7 +37,7 @@ public class StudentCountController {
 
     @RequestMapping(value = "/addRoom",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity saveClassRoom(ClassRoom classRoom){
+    public ResponseEntity saveClassRoom( ClassRoom classRoom){
         roomServer.saveClassRoom(classRoom);
         return ResponseEntity.success();
     }

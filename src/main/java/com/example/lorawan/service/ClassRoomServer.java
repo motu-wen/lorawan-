@@ -18,17 +18,8 @@ public class ClassRoomServer {
     private ClassRoom classRoom1,classRoom2=new ClassRoom();
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-
-    public ClassRoom getClassRoom1() {
-        return classRoom1;
-    }
-
-    public ClassRoom getClassRoom2() {
-        return classRoom2;
-    }
     public void redisToStudentNumber(){
-        classRoom1=JSonUtil.toObject(stringRedisTemplate.opsForValue().get("classroom"),ClassRoom.class);
+        classRoom1=JSonUtil.toObject(stringRedisTemplate.opsForValue().get("12-23-2"),ClassRoom.class);
         String s[]=new String[4];
         s[0]= JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB2",100, TimeUnit.MILLISECONDS),"time");
         s[1]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB3",100, TimeUnit.MILLISECONDS),"time");

@@ -1,0 +1,76 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="ip" class="col-sm-2 control-label">LoRa服务端IP</label>
+        <div class="col-sm-5"><input type="text" name="LoRaIp" class=" form-control" id="ip" placeholder="12">
+    </div>
+    </div>
+        <div class="form-group">
+            <label for="port" class="col-sm-2 control-label">LoRa服务端port</label>
+            <div class="col-sm-5"><input type="text" name="LoRaIp" class=" form-control" id="port" placeholder="12">
+            </div>
+        </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">LoRa服务器端地址</label>
+        <div class="col-sm-5"><input type="text" name="LoRa" class="form-control" id="LoRa" disabled></div>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary col-sm-offset-6" id="saveClassRoom" onclick="setLoraUrl()">保存</button>
+    </div>
+</form>
+<script>
+$(document).ready(function () {
+    getLora();
+    showLoRaAddress();
+});
+function showLoRaAddress() {
+
+ $("input").on('input',function () {
+     var loraIp=$("#ip").val();
+     var loraPort=$("#port").val();
+     var loraAddress="ws://"+loraIp+":"+loraPort+"/ws/groups/infrared/json";
+     $("#LoRa").val(loraAddress);
+ });
+}
+    function getLora() {
+        $.ajax({
+            type:"GET",
+            contentType:'application/json',
+            url:'/getLora',
+            dataType:'json',
+            success:function (result) {
+                if (null != result && result.code == 200) {
+                    var map = result.data.lora;
+                    var lorawanIpAndPort = (!map['lorawanIpAndPort']) ? '' : map['lorawanIpAndPort'];
+                    var lorawanAddress = (!map['lorawanAddress']) ? '' : map['lorawanAddress'];
+                    if (!!lorawanIpAndPort) {
+                        var tempArr = lorawanIpAndPort.split(":");
+                        $("#ip").val(tempArr[0]);
+                        $("#port").val(tempArr[1]);
+                    }
+                    $("#LoRa").val(lorawanAddress);
+                }
+            }
+        });
+
+    }
+    function setLoraUrl() {
+        var loraIp=$("#ip").val();
+        var loraPort=$("#port").val();
+        var loraAddress="ws://"+loraIp+":"+loraPort+"/ws/groups/infrared/json";
+        var LoraIpPort=loraIp+":"+loraPort;
+        if((!!loraIp)&&(!!loraPort)){
+            $.ajax({
+                type:"GET",
+                url:'/setLoRa?loraUrl='+loraAddress+'&LoraIpPort='+LoraIpPort,
+                success:function (result) {
+                    if(null!=result&&result.code==200){
+                        alert("Lora信息设置完成");
+                        window.location.href="main.html";
+                    }
+                }
+            });
+        }else {
+            alert("Lora信息填全再提交");
+        }
+    }
+</script>

@@ -1,11 +1,14 @@
 package com.example.lorawan.service.serviceImpl;
 
 import com.example.lorawan.doamin.ClassRoom;
+import com.example.lorawan.doamin.ResponseEntity;
 import com.example.lorawan.until.JSonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,8 +21,8 @@ public class RoomServerImpl {
         String build=classroom.getBuild().toString(),floor=classroom.getFloor().toString(),room=classroom.getRoom().toString();
         String key=build+"-"+floor+"-"+room;
         String allkey=template.opsForValue().get("classroom");
-        if(allkey==null){
-            allkey="";
+        if(allkey==(null)){
+            allkey=" ";
         }
         if(!template.hasKey("build")){
             template.opsForList().rightPush("build","");
@@ -45,4 +48,5 @@ public class RoomServerImpl {
         }
 
     }
+
 }
