@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-offset-4 page-header"><h2>请选择教室</h2></div>
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="buildNum" class="col-sm-2 control-label">教学楼编号</label>
+        <div class="col-sm-5"><input type="text" name="build" class=" form-control" id="buildNum" placeholder="12">
+            <span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+        <label for="floorNum" class="col-sm-2 control-label">楼层编号</label>
+        <div class="col-sm-5"><input type="text" name="floor" class=" form-control" id="floorNum" placeholder="3">
+            <span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+        <label for="classRoom" class="col-sm-2 control-label">教室编号</label>
+        <div class="col-sm-5"><input type="text" name="class" class=" form-control" id="classRoom" placeholder="5">
+            <span class="help-block"></span></div>
+    </div>
+    <div class="form-group">
+        <select class="selected show" title="qweqweqw">wqeqwewq</select>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary col-sm-offset-6" id="saveClassRoom">保存</button>
+    </div>
+</form>
+<script>
+    $("#saveClassRoom").on("click",function () {
+      $.ajax({
+          url:"/addClassRoom",
+          data:$("form").serialize(),
+          type:"POST",
+          success:function () {
+              window.href.location="/main.html"
+          }
+      });
+    });
+</script>

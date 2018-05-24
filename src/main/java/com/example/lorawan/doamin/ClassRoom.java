@@ -13,6 +13,22 @@ public class ClassRoom {
     private Integer floor;
     private Integer room;
     private Integer count;
+    private List<String> senstor;
+
+    public ClassRoom(Integer build, Integer floor, Integer room) {
+        this.build = build;
+        this.floor = floor;
+        this.room = room;
+    }
+
+    public List<String> getSenstor() {
+        return senstor;
+    }
+
+    public void setSenstor(List<String> senstor) {
+        this.senstor = senstor;
+    }
+
     public Integer getCount() {
         return count;
     }

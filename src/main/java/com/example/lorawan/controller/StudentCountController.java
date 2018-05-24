@@ -1,7 +1,6 @@
 package com.example.lorawan.controller;
 
 import com.example.lorawan.doamin.ClassRoom;
-import com.example.lorawan.service.ClassRoomServer;
 import com.example.lorawan.until.JSonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

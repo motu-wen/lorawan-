@@ -1,0 +1,33 @@
+<div class="row">
+   <div class="col-md-offset-4 page-header"><h2>请选择教室</h2></div>
+</div>
+
+<form class="form-inline">
+    <div class="form-group">
+        <label class="col-md-12 control-label" for="teachingbuilding">教学楼编号</label>
+    </div>
+    <div class="form-group">
+        <select id="teachingbuilding" class="selectpicker show-tick" title="请选择教学楼编号" onchange="selectedtchbd()" ></select>
+    </div>
+    <div class="form-group">
+        <label class="col-md-12 control-label" for="floor">楼层号</label>
+    </div>
+    <div class="form-group">
+        <select id="floor" class="selectpicker show-tick" title="请选择楼层" onchange="selectedfloor()"></select>
+    </div>
+    <div class="form-group">
+        <label class="col-md-12 control-label" for="room">教室编号</label>
+    </div>
+    <div class="form-group">
+        <select id="room" class="selectpicker show-tick" title="请选择教室编号"></select>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" onclick="getStudent()">开始查询</button>
+    </div>
+</form>
+<div class="container">
+    <div class="row">
+        <label class="col-md-4 control-lable">当前教室人数为:</label>
+        <div class="col-md-8" id="getcount"></div>
+    </div>
+</div>

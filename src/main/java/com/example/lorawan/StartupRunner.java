@@ -1,7 +1,6 @@
 package com.example.lorawan;
 
 import com.example.lorawan.controller.WebSocketController;
-import com.example.lorawan.doamin.ClassRoom;
 import com.example.lorawan.service.ClassRoomServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
