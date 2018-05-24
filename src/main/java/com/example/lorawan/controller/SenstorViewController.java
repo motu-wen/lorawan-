@@ -18,6 +18,5 @@ public class SenstorViewController {
         String devaddr="BBBBBBB7";
         List<String> list=stringRedisTemplate.opsForList().range(devaddr,0,-1);
         return ResponseEntity.success().add("list",list);
-
 }
 }

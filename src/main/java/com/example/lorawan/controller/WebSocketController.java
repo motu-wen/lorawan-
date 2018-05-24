@@ -15,11 +15,11 @@ import java.util.Map;
 @RestController
 public class WebSocketController {
     @Autowired
-    private StringRedisTemplate template;
-
-    public static String destUrl="ws://114.213.206.118:8080/ws/groups/infrared/json";
+    private  StringRedisTemplate template;
+    public static String destUrl;
     @RequestMapping("/resetUrl")
     public void  resetWebSocketUrl(){
+        destUrl=template.opsForValue().get("lorawanAddress");
         Thread t1=new Thread(new Runnable() {
             @Override
             public void run() {

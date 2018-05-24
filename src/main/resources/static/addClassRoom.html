@@ -24,13 +24,13 @@
 </form>
 <script>
     $(document).ready(function () {
-        console.log("执行到");
         $("#saveClassRoom").on("click",function () {
             $.ajax({
                 url:"/addRoom",
                 data:$("form").serialize(),
                 type:"POST",
                 success:function (result) {
+                    console.log($("form").serialize());
                     if(result.code==200){
                         alert("添加成功");
                         window.location.href="/main.html"
