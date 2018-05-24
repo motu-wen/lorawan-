@@ -7,22 +7,24 @@
         <label class="col-md-12 control-label" for="teachingbuilding">教学楼编号</label>
     </div>
     <div class="form-group">
-        <select id="teachingbuilding" class="selectpicker show-tick" title="请选择教学楼编号" onchange="selectedtchbd()" ></select>
+        <select id="teachingbuilding" title="请选择教学楼编号" name="teachingbuilding">
+            <option selected="selected">请选择教学楼</option>
+        </select>
     </div>
     <div class="form-group">
         <label class="col-md-12 control-label" for="floor">楼层号</label>
     </div>
     <div class="form-group">
-        <select id="floor" class="selectpicker show-tick" title="请选择楼层" onchange="selectedfloor()"></select>
+        <select id="floor" title="请选择楼层" ></select>
     </div>
     <div class="form-group">
         <label class="col-md-12 control-label" for="room">教室编号</label>
     </div>
     <div class="form-group">
-        <select id="room" class="selectpicker show-tick" title="请选择教室编号"></select>
+        <select id="room" title="请选择教室编号"></select>
     </div>
     <div class="form-group">
-        <button type="button" class="btn btn-primary" onclick="getStudent()">开始查询</button>
+        <button type="button" class="btn btn-primary">开始查询</button>
     </div>
 </form>
 <div class="container">
@@ -32,21 +34,48 @@
     </div>
 </div>
 <script type="application/javascript">
-    $(function getLou() {
-        var teachingbuilding=$("#teachingbuilding");
-        console.log("执行到此处");
-        $.ajax({
-            url:"/getbuildall",
-            type:"POST",
-            contentType:"application/json; charset=utf-8",
-            success:function (response) {
-                $.each(response.data.list,function (index,item) {
-                    var option="<option id='"+item+"' value='"+item+"'>第"+item+"教学楼</option>";
-                    teachingbuilding.append(option);
-
-                })
-
-            }
-        })
+    $(document).ready(function () {
+        getBuild("#teachingbuilding");
+        getFloor("#floor");
+        $("#teachingbuilding").change(function () {
+            $("#floor").empty();
+            $("#room").empty();
+            load
+        });
     });
+    
+    function loadFloor(parentId) {
+        
+    }
+function getBuild(ele) {
+    $(ele).empty();
+    $.ajax({
+        url:"/getbuildall",
+        type:"GET",
+        success:function (result) {
+            var build=result.data.list;
+            $.each(build,function () {
+                var option=$("<option></option>").append("第").append(this).append("教学楼").attr("value",this);
+                option.appendTo(ele);
+            })
+        }
+    });
+}
+function getFloor(ele) {
+    $(ele).empty();
+   var build=$("select name[teachingbuilding]").val();
+    console.log(build);
+    $.ajax({
+        url:"/getfloorall?build="+build,
+        type:"GET",
+        success:function (result) {
+            var floor=result.data.list;
+            console.log(floor);
+            $.each(floor,function () {
+                var options=$("<option></option>").append(this).append("楼");
+                options.appendTo(ele);
+            });
+        }
+    });
+}
 </script>
