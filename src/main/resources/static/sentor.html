@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <div class="row">
+      <table class="table table-hover table-bordered" id="infraredTable">
+          <caption> 红外人数传感器</caption>
+          <thead>
+          <tr>
+              <th>一</th>
+              <th>二</th>
+              <th>三</th>
+              <th>四</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+        <table class="table table-hover table-bordered" id="lockTable">
+            <caption> 智能门锁传感器</caption>
+            <thead>
+            <tr>
+                <th>一</th>
+                <th>二</th>
+                <th>三</th>
+                <th>四</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $.ajax({
+        url:"/getAllSen",
+        contentType:'application/json',
+        type:"GET",
+        dataType:'json',
+        success:function (result) {
+            var infrared=result.data.infrared;
+            var lock=result.data.lock;
+            if(null!=result&&result.code==200){
+                if(!result.data) return;
+                var lockArr=lock.split(",");
+                var infraredArr=infrared.split(",");
+                var infraredLen=infraredArr.length;
+                var lockLen=lockArr.length;
+                  for(var i=0;i<(infraredLen/4)+1;i++){
+                      var tr=$("<tr></tr>");
+                      for(var j=0;j<4;j++) {
+                          var x = i * 4 + j;
+                          if (x < infraredLen) {
+                              var span=$("<span></span>").append(infraredArr[x]).attr("class","badge");
+                              var td = $("<td></td>").append(span);
+                              tr.append(td);
+                          }
+                      }
+                      tr.appendTo("#infraredTable tbody");
+                  }
+                for(var i=0;i<(lockLen/4)+1;i++){
+                    var tr=$("<tr></tr>");
+                    for(var j=0;j<4;j++) {
+                        var x = i * 4 + j;
+                        if (x < lockLen) {
+                            var span=$("<span></span>").append(lockArr[x]).attr("class","badge");
+                            var td = $("<td></td>").append(span);
+                            tr.append(td);
+                        }
+                    }
+                    tr.appendTo("#lockTable tbody");
+                }
+
+
+            }
+        }
+    });
+</script>
