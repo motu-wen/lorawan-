@@ -20,7 +20,7 @@
             <ul class="nav nav-tabs nav-stacked">
                 <li class="active" ><a href="#" class="nav-header collapsed" data-toggle="collapse">系统首页</a></li>
                 <li><a id="DownList"  class="nav-header collapsed" data-toggle="collapse" >人数查询</a></li>
-                <li><a href="#" class="nav-header collapsed" data-toggle="collapse">LoRa服务端设置</a></li>
+                <li><a id="setLoRa" class="nav-header collapsed" data-toggle="collapse">LoRa服务端设置</a></li>
                 <li><a id="addClassRoom" class="nav-header collapsed" data-toggle="collapse">添加教室</a></li>
                 <li><a href="#" class="nav-header collapsed" data-toggle="collapse">添加传感器</a></li>
             </ul>
@@ -37,6 +37,9 @@
     });
     $("#addClassRoom").on("click",function () {
        $("#right") .load("addClassRoom.html");
+    });
+    $("#setLoRa").on("click",function () {
+        $("#right").load("setLoRa.html");
     });
 </script>
 </body>
