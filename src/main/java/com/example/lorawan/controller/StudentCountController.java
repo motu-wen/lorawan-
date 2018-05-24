@@ -1,6 +1,8 @@
 package com.example.lorawan.controller;
 
 import com.example.lorawan.doamin.ClassRoom;
+import com.example.lorawan.doamin.ResponseEntity;
+import com.example.lorawan.service.serviceImpl.RoomServerImpl;
 import com.example.lorawan.until.JSonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 public class StudentCountController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private RoomServerImpl roomServer;
     @RequestMapping(value = "/getStudentCount",method = RequestMethod.POST)
     @ResponseBody
     public ClassRoom getStudentCount(@RequestBody ClassRoom classRoom){
@@ -31,4 +35,10 @@ public class StudentCountController {
         }
     }
 
+    @RequestMapping(value = "/addRoom",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity saveClassRoom(ClassRoom classRoom){
+        roomServer.saveClassRoom(classRoom);
+        return ResponseEntity.success();
+    }
 }

@@ -15,25 +15,28 @@
     </div>
     <div class="form-group">
         <label for="classRoom" class="col-sm-2 control-label">教室编号</label>
-        <div class="col-sm-5"><input type="text" name="class" class=" form-control" id="classRoom" placeholder="5">
+        <div class="col-sm-5"><input type="text" name="room" class=" form-control" id="classRoom" placeholder="5">
             <span class="help-block"></span></div>
-    </div>
-    <div class="form-group">
-        <select class="selected show" title="qweqweqw">wqeqwewq</select>
     </div>
     <div>
         <button type="button" class="btn btn-primary col-sm-offset-6" id="saveClassRoom">保存</button>
     </div>
 </form>
 <script>
-    $("#saveClassRoom").on("click",function () {
-      $.ajax({
-          url:"/addClassRoom",
-          data:$("form").serialize(),
-          type:"POST",
-          success:function () {
-              window.href.location="/main.html"
-          }
-      });
+    $(document).ready(function () {
+        $("#saveClassRoom").on("click",function () {
+            $.ajax({
+                url:"/addRoom",
+                data:$("form").serialize(),
+                type:"POST",
+                success:function (result) {
+                    if(result.code==200){
+                        alert("添加成功");
+                        window.location.href="/main.html"
+                    }
+                }
+            });
+        });
     });
+
 </script>
