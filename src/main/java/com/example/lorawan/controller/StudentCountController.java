@@ -55,5 +55,10 @@ public class StudentCountController {
         roomServer.saveClassRoom(classRoom);
         return ResponseEntity.success();
     }
-
+    @RequestMapping(value = "/getAllSen",method = RequestMethod.GET)
+    public ResponseEntity getAllSen(){
+        String list=stringRedisTemplate.opsForValue().get("hongwaiList");
+        String list1=stringRedisTemplate.opsForValue().get("LockList");
+        return ResponseEntity.success().add("infrared",list).add("lock",list1);
+    }
 }
