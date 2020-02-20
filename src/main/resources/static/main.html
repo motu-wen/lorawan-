@@ -10,7 +10,7 @@
 <body>
 <div class="container-fluid">
     <div class="row" id="head">
-       <img src="images/11.jpg" style="width: 100%;height:50px;">
+       <img src="images/logo.jpg" style="width: 100%;height:150px;">
     </div>
     <div class="row">
         <br>
@@ -18,11 +18,11 @@
     <div class="row" id="main">
         <div class="col-md-3" id="left">
             <ul class="nav nav-tabs nav-stacked">
-                <li class="active" ><a href="#" class="nav-header collapsed" data-toggle="collapse">系统首页</a></li>
+                <li class="active" ><a id="mainShow" class="nav-header collapsed" data-toggle="collapse">系统首页</a></li>
                 <li><a id="DownList"  class="nav-header collapsed" data-toggle="collapse" >人数查询</a></li>
                 <li><a id="setLoRa" class="nav-header collapsed" data-toggle="collapse">LoRa服务端设置</a></li>
                 <li><a id="addClassRoom" class="nav-header collapsed" data-toggle="collapse">添加教室</a></li>
-                <li><a href="#" class="nav-header collapsed" data-toggle="collapse">添加传感器</a></li>
+                <li><a id="show" class="nav-header collapsed" data-toggle="collapse">显示传感器</a></li>
             </ul>
         </div>
         <div class="col-md-9" id="right"></div>
@@ -31,6 +31,9 @@
 <script>
    $(document).ready(function () {
        $("#right").load("desc.html");
+   });
+   $("#mainShow").on("click",function () {
+      $("#right").load("desc.html");
    });
     $("#DownList").on("click",function () {
         $("#right").load("downlist.html");
@@ -41,6 +44,9 @@
     $("#setLoRa").on("click",function () {
         $("#right").load("lora.html");
     });
+   $("#show").on("click",function () {
+       $("#right").load("sentor.html");
+   });
 </script>
 </body>
 </html>

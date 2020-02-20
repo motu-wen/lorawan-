@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,7 +18,6 @@ import java.util.List;
  * @data 2018/5/18 11:01
  **/
 @RestController
-@ResponseBody
 public class StudentCountController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -58,7 +58,16 @@ public class StudentCountController {
     @RequestMapping(value = "/getAllSen",method = RequestMethod.GET)
     public ResponseEntity getAllSen(){
         String list=stringRedisTemplate.opsForValue().get("hongwaiList");
-        String list1=stringRedisTemplate.opsForValue().get("LockList");
-        return ResponseEntity.success().add("infrared",list).add("lock",list1);
+         List list1=stringRedisTemplate.opsForList().range("LockList",0,-1);
+         return ResponseEntity.success().add("infrared",list).add("lock",list1);
+    }
+    /*
+    * 时间有限，未完成
+    * */
+    @RequestMapping(value = "/getNuBindInfrared",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getNuBindInfrared() {
+        List<String> list = stringRedisTemplate.opsForList().range("NuBindInfrared", 0, -1);
+        return ResponseEntity.success().add("NuBindList", list);
     }
 }

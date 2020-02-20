@@ -20,10 +20,9 @@
             <caption> 智能门锁传感器</caption>
             <thead>
             <tr>
-                <th>一</th>
-                <th>二</th>
-                <th>三</th>
-                <th>四</th>
+                <th>设备号</th>
+                <th>状态</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -42,10 +41,8 @@
             var lock=result.data.lock;
             if(null!=result&&result.code==200){
                 if(!result.data) return;
-                var lockArr=lock.split(",");
                 var infraredArr=infrared.split(",");
                 var infraredLen=infraredArr.length;
-                var lockLen=lockArr.length;
                   for(var i=0;i<(infraredLen/4)+1;i++){
                       var tr=$("<tr></tr>");
                       for(var j=0;j<4;j++) {
@@ -58,21 +55,47 @@
                       }
                       tr.appendTo("#infraredTable tbody");
                   }
-                for(var i=0;i<(lockLen/4)+1;i++){
-                    var tr=$("<tr></tr>");
-                    for(var j=0;j<4;j++) {
-                        var x = i * 4 + j;
-                        if (x < lockLen) {
-                            var span=$("<span></span>").append(lockArr[x]).attr("class","badge");
-                            var td = $("<td></td>").append(span);
-                            tr.append(td);
-                        }
-                    }
-                    tr.appendTo("#lockTable tbody");
-                }
 
+               $.each(lock,function (index,item) {
+                   item=JSON.parse(item);
+                   var span=$("<span></span>").append(item.devaddr).attr("class","badge");
+                   var td = $("<td></td>").append(span);
+                   var td1=$("<td></td>").append(item.status);
+                   var butt1=$("<button></button>").addClass("btn btn-primary btn-sm lock-btn").attr("dev",item.devaddr).append("上锁");
+                   var butt2=$("<button></button>").addClass("btn btn-primary btn-sm safe-btn").attr("dev",item.devaddr).append("开锁");
+                   var td2=$("<td></td>").append(butt1).append(butt2);
+                   $("<tr></tr>").append(td).append(td1).append(td2).appendTo("#lockTable tbody");
+               });
 
             }
         }
     });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $(document).on("click",".safe-btn",function () {
+            var lock="{\"data\":\"4c4f434b4f50454e\", \"port\":69, \"time\":\"immediately\"}";
+            set($(this).attr("dev"),lock);
+        })
+    });
+    $(document).on("click",".lock-btn",function () {
+        var lock="{\"data\":\"4c4f434b484f4c44\", \"port\":69, \"time\":\"immediately\"} ";
+        set($(this).attr("dev"),lock);
+    })
+    function set(dev,txt) {
+        var wshost="ws://114.213.206.118:8080/ws/nodes/"+dev+"/json";
+        websocket=new WebSocket(wshost);
+        websocket.onopen=function (ev) {
+           send(txt)}
+    }
+    function send(txt) {
+        console.log(txt);
+        if(websocket.readyState==websocket.OPEN){
+            websocket.send(txt);
+            console.log("发送成功");
+        }else {
+            console.log("发送失败");
+        }
+    }
 </script>

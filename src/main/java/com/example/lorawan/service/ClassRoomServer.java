@@ -5,6 +5,8 @@ import com.example.lorawan.until.JSonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /*
@@ -16,34 +18,41 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class ClassRoomServer {
-    private ClassRoom classRoom1,classRoom2=new ClassRoom();
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-    public void redisToStudentNumber(){
-        classRoom1=JSonUtil.toObject(stringRedisTemplate.opsForValue().get("classroom1"),ClassRoom.class);
-        String s[]=new String[4];
-        s[0]= JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB2",100, TimeUnit.MILLISECONDS),"time");
-        s[1]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB3",100, TimeUnit.MILLISECONDS),"time");
-        s[2]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB5",100, TimeUnit.MILLISECONDS),"time");
-        s[3]=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().rightPop("BBBBBBB7",100, TimeUnit.MILLISECONDS),"time");
-        studentNumber(s);
+    public void redisToStudentNumber() {
 
-//        stringRedisTemplate.opsForValue().set("classroom",JSonUtil.toJSonString(classRoom1));
     }
-    public void studentNumber(String s1[]){
-        if(s1[0]!=null&&!"".equals(s1[0])&&s1[1]!=null&&!"".equals(s1[1])) {
-            if (s1[0].compareTo(s1[1]) < 0) {
-                classRoom1.setCount(classRoom1.getCount() + 1);
-            } else {
-                classRoom1.setCount(classRoom1.getCount() - 1);
+    public void isBefore(String key1,String key2,ClassRoom classRoom,String key){
+        String key1Time=JSonUtil.getNodeTextValue(stringRedisTemplate.opsForList().leftPop(key1),"time");
+        int i=0;
+        while(null==stringRedisTemplate.opsForList().index(key2,0)){
+            if(i>10000)break;
+            else i++;
+        }
+        String key2Time=JSonUtil.getNodeTextStringValue(stringRedisTemplate.opsForList().leftPop(key2),"time");
+        if(null!=key2Time){
+            if(key1Time.compareTo(key2Time)<0){
+                classRoom.setCount(classRoom.getCount()+1);
+            }
+            if(key1Time.compareTo(key2Time)>=0){
+                classRoom.setCount(classRoom.getCount()-1);
             }
         }
-        if(s1[2]!=null&&!"".equals(s1[2])&&s1[3]!=null&&!"".equals(s1[3])) {
-            if (s1[2].compareTo(s1[3]) < 0) {
-                classRoom1.setCount(classRoom1.getCount() + 1);
-            } else {
-                classRoom1.setCount(classRoom1.getCount() - 1);
-            }
+        stringRedisTemplate.opsForValue().set(key,JSonUtil.toJSonString(classRoom));
+    }
+
+    public void count(String key,ClassRoom classRoom){
+        List<String> list=classRoom.getSenstor();
+        if(null!=stringRedisTemplate.opsForList().index(list.get(0),0)){
+            isBefore(list.get(0),list.get(1),classRoom,key);
+        }else if(null!=stringRedisTemplate.opsForList().index(list.get(1),0)) {
+            isBefore(list.get(1),list.get(0),classRoom,key);
+        }
+        if(null!=stringRedisTemplate.opsForList().index(list.get(2),0)){
+            isBefore(list.get(2),list.get(3),classRoom,key);
+        }else if(null!=stringRedisTemplate.opsForList().index(list.get(3),0)) {
+            isBefore(list.get(3),list.get(2),classRoom,key);
         }
     }
 }

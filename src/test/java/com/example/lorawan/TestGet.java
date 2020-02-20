@@ -21,6 +21,7 @@ public class TestGet {
         for (Object s:list
              ) {
             System.out.println(s);
+
         }
     }
 }

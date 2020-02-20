@@ -19,4 +19,10 @@ public class SenstorViewController {
         List<String> list=stringRedisTemplate.opsForList().range(devaddr,0,-1);
         return ResponseEntity.success().add("list",list);
 }
+@RequestMapping(value = "/getDesc",method = RequestMethod.GET)
+@ResponseBody
+public ResponseEntity getDesc(){
+        String desc=stringRedisTemplate.opsForValue().get("desc");
+        return ResponseEntity.success().add("desc",desc);
+}
 }

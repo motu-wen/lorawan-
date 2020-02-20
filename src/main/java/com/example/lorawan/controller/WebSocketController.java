@@ -32,9 +32,6 @@ public class WebSocketController {
                     URI connectUri=new URI(destUrl);
                     ClientUpgradeRequest request=new ClientUpgradeRequest();
                     client.connect(socket,connectUri,request);
-                    while (true){
-                        Thread.sleep(1000*10);
-                    }
                 }catch (Throwable t){
                     t.printStackTrace();
 

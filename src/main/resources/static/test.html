@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="senstor1">选择1号红外传感器</label>
+            <select id="senstor1" name="senstor1" title="一号传感器" class="sss"><option>请选择传感器</option>
+            </select>
+        </div>
+        <div class="col-md-offset-3 col-md-3">
+            <label for="senstor1">选择2号红外传感器</label>
+            <select id="senstor2" name="senstor1" title="二号传感器" class="sss"><option>请选择传感器</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label for="senstor1">选择3号红外传感器</label>
+            <select id="senstor3" name="senstor1" title="三号传感器" class="sss"><option>请选择传感器</option>  </select>
+        </div>
+        <div class="col-md-offset-3 col-md-3">
+            <label for="senstor1">选择4号红外传感器</label>
+            <select id="senstor4" name="senstor1" title="四号传感器" class="sss"> <option>请选择传感器</option>  </select>
+        </div>
+    </div>
+
+</div>
+<script>
+$(document).ready(function () {
+getNuBindInfrared();
+});
+function getNuBindInfrared() {
+    $.ajax({
+        url:"/getNuBindInfrared",
+        method: "GET",
+        success:function (result) {
+            if(result.code==200){
+                var list=result.data.NuBindList;
+               $.each(list,function () {
+                 $("<option></option>").append(this).appendTo(".sss");
+
+               })
+            }else {
+               alert("请求失败");
+            }
+        }
+    });
+}
+</script>

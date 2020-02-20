@@ -1,5 +1,6 @@
 package com.example.lorawan.doamin;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -12,8 +13,18 @@ public class ClassRoom {
     private Integer build;//教学楼编号
     private Integer floor;
     private Integer room;
+    @Min(0)
     private Integer count;
     private List<String> senstor;
+    private List<String> lock;
+
+    public List<String> getLock() {
+        return lock;
+    }
+
+    public void setLock(List<String> lock) {
+        this.lock = lock;
+    }
 
     public ClassRoom(Integer build, Integer floor, Integer room) {
         this.build = build;

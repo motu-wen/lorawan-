@@ -27,14 +27,16 @@
     </div>
 </form>
 <div class="container">
-    <div class="row">
+    <div class="row" id="classCount">
         <br><br>
         <label class="col-md-4 control-lable">当前教室人数为:</label>
         <div class="col-md-8" id="getcount"></div>
     </div>
 </div>
+
 <script type="application/javascript">
     $(document).ready(function () {
+        $("#classCount").hide();
         getBuild("#teachingbuilding");
     });
 
@@ -98,7 +100,7 @@ function get() {
         url:"/getStudentCount?key="+key,
         type:"POST",
         success:function (result) {
-
+        $("#classCount").show();
           $("#getcount").append(result.data.list)
         }
     });

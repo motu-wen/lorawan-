@@ -32,13 +32,10 @@ public class RedisConfig {
     private String host;
     @Value("${spring.redis.port}")
     private int port;
-
     @Value("${spring.redis.timeout}")
     private int timeout;
-
     @Value("${spring.redis.database}")
     private int database;
-
     @Value("${spring.redis.password}")
     private String password;
     @Bean
@@ -86,7 +83,5 @@ public class RedisConfig {
         template.afterPropertiesSet();
         return template;
     }
-
-
 }
 
